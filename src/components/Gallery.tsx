@@ -1,29 +1,24 @@
-import React from 'react';
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay } from "swiper/modules";
+import "swiper/css";
+import "swiper/css/autoplay";
 
 const galleryImages = [
   {
-    url: 'https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=800',
-    title: 'Industrial Electrical Installation',
+    url: "/s1.jpeg",
+    title: "Project Showcase 1",
   },
   {
-    url: 'https://images.pexels.com/photos/159358/construction-site-build-construction-work-159358.jpeg?auto=compress&cs=tinysrgb&w=800',
-    title: 'Commercial Projects',
+    url: "/s2.jpeg",
+    title: "Project Showcase 2",
   },
   {
-    url: 'https://images.pexels.com/photos/257700/pexels-photo-257700.jpeg?auto=compress&cs=tinysrgb&w=800',
-    title: 'Panel Installation',
+    url: "/s3.jpeg",
+    title: "Project Showcase 3",
   },
   {
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRgg245qUFpp8lleLcAFv1CBTJlkzUzbbdlVg&s',
-    title: 'Electrical Wiring',
-  },
-  {
-    url: 'https://images.pexels.com/photos/1216589/pexels-photo-1216589.jpeg?auto=compress&cs=tinysrgb&w=800',
-    title: 'Safety Equipment',
-  },
-  {
-    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRxuhFyZJelwvDNmaLJyH50Fzgpc8qfaJiBUA&s',
-    title: 'Professional Team',
+    url: "/s4.jpeg",
+    title: "Project Showcase 4",
   },
 ];
 
@@ -41,23 +36,80 @@ export default function Gallery() {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {galleryImages.map((image, index) => (
-            <div key={index} className="group relative h-80 rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300">
-              <img
-                src={image.url}
-                alt={image.title}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <div className="absolute bottom-0 left-0 right-0 p-6">
-                  <h3 className="text-xl font-bold text-white">{image.title}</h3>
-                </div>
-              </div>
-            </div>
-          ))}
+        <div className="relative overflow-hidden">
+          <Swiper
+            modules={[Autoplay]}
+            autoplay={{ delay: 3000, disableOnInteraction: false }}
+            loop={true}
+            spaceBetween={20}
+            breakpoints={{
+              640: {
+                slidesPerView: 1,
+              },
+              768: {
+                slidesPerView: 2,
+              },
+              1024: {
+                slidesPerView: 3,
+              },
+            }}
+          >
+            {galleryImages.map((image, index) => (
+              <SwiperSlide
+                key={index}
+                className="group relative flex-shrink-0 w-[280px] h-[200px] md:w-[400px] md:h-[300px] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
+              >
+                <SwiperSlide>
+                  {" "}
+                  <img
+                    src={image.url}
+                    alt={image.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
+                      <h3 className="text-base md:text-xl font-bold text-white">
+                        {image.title}
+                      </h3>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
+
+      <style>{`
+        @keyframes scroll {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(calc(-280px * 4 - 16px * 4));
+          }
+        }
+        
+        @media (min-width: 768px) {
+          @keyframes scroll {
+            0% {
+              transform: translateX(0);
+            }
+            100% {
+              transform: translateX(calc(-400px * 4 - 24px * 4));
+            }
+          }
+        }
+        
+        .animate-scroll {
+          animation: scroll 30s linear infinite;
+        }
+        
+        .animate-scroll:hover {
+          animation-play-state: paused;
+        }
+      `}</style>
+      
     </section>
   );
 }
