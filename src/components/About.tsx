@@ -38,7 +38,7 @@ export default function About() {
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
           <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl">
             <img
-              src="https://images.pexels.com/photos/6476808/pexels-photo-6476808.jpeg?auto=compress&cs=tinysrgb&w=1200"
+              src="https://t3.ftcdn.net/jpg/04/56/83/54/240_F_456835482_z37lkOdB479RML2cIu8QhwqQ1WBRUBgB.jpg"
               alt="Professional team"
               className="w-full h-full object-cover"
             />
