@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapPin, Phone, Mail, Zap } from 'lucide-react';
+import { MapPin, Phone, Mail } from 'lucide-react';
 
 export default function Footer() {
   return (
@@ -8,9 +8,9 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-red-600 rounded-lg flex items-center justify-center">
-                <Zap className="w-6 h-6 text-white" />
-              </div>
+            <div className="w-15 h-15 bg-gradient-to-br rounded-lg flex items-center justify-center">
+              <img src="/logo.png" alt="Shivam Enterprises" className="w-10 h-10" />
+            </div>
               <div>
                 <h3 className="text-xl font-bold">Shivam Enterprises</h3>
                 <p className="text-sm text-gray-400">Electrical Solutions</p>
