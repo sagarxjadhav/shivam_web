@@ -58,14 +58,13 @@ export default function Footer() {
               <li className="flex items-center space-x-3">
                 <Phone className="w-5 h-5 text-blue-400 flex-shrink-0" />
                 <div className="text-gray-400 text-sm">
-                  <a href="tel:9478975727" className="hover:text-blue-400 block">9478975727</a>
                   <a href="tel:8318688722" className="hover:text-blue-400 block">8318688722</a>
                 </div>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail className="w-5 h-5 text-blue-400 flex-shrink-0" />
-                <a href="mailto:shivamenterprises5727@gmail.com" className="text-gray-400 text-sm hover:text-blue-400">
-                  shivamenterprises5727@gmail.com
+                <a href="mailto:sales@shivamenterprises.com" className="text-gray-400 text-sm hover:text-blue-400">
+                sales@shivamenterprises.com
                 </a>
               </li>
             </ul>

@@ -77,7 +77,6 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1">Phone</h4>
-                    <a href="tel:9478975727" className="text-blue-100 hover:text-white block">9478975727</a>
                     <a href="tel:8318688722" className="text-blue-100 hover:text-white block">8318688722</a>
                   </div>
                 </div>
@@ -88,8 +87,8 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 className="font-semibold mb-1">Email</h4>
-                    <a href="mailto:shivamenterprises5727@gmail.com" className="text-blue-100 hover:text-white">
-                      shivamenterprises5727@gmail.com
+                    <a href="mailto:sales@shivamenterprises.com" className="text-blue-100 hover:text-white">
+                    sales@shivamenterprises.com
                     </a>
                   </div>
                 </div>

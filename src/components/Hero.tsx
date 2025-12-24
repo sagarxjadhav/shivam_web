@@ -49,33 +49,6 @@ export default function Hero() {
                 </div>
               </div>
             </div>
-
-            {/* <div className="flex flex-col sm:flex-row gap-4">
-              <button
-                onClick={scrollToContact}
-                className="group px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl"
-              >
-                <span>Get a Quote</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button
-                onClick={scrollToContact}
-                className="px-8 py-4 bg-white dark:bg-gray-800 text-blue-600 dark:text-blue-400 border-2 border-blue-600 dark:border-blue-400 rounded-lg font-semibold hover:bg-blue-50 dark:hover:bg-gray-700 transition-all duration-300"
-              >
-                Contact Us
-              </button>
-            </div> */}
-
-            {/* <div className="flex flex-col sm:flex-row gap-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-              <a href="tel:9478975727" className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                <Phone className="w-5 h-5" />
-                <span className="font-medium">9478975727 / 8318688722</span>
-              </a>
-              <a href="mailto:shivamenterprises5727@gmail.com" className="flex items-center space-x-2 text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors">
-                <Mail className="w-5 h-5" />
-                <span className="font-medium">shivamenterprises5727@gmail.com</span>
-              </a>
-            </div> */}
           </div>
 
           <div className="relative hidden md:block">
