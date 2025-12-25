@@ -142,6 +142,23 @@ function BlogDetail() {
               <div className="w-24 h-1 bg-gradient-to-r from-blue-600 to-red-600"></div>
             </div>
 
+            {/* Images Section - Show after title */}
+            {blog.images && blog.images.length > 0 && (
+              <div className="px-6 sm:px-8 lg:px-10 py-6 border-b border-gray-200 dark:border-gray-700">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {blog.images.map((imageUrl: string, index: number) => (
+                    <div key={index} className="rounded-lg overflow-hidden">
+                      <img
+                        src={imageUrl}
+                        alt={`${blog.title || 'Blog'} - Image ${index + 1}`}
+                        className="w-full h-auto object-cover rounded-lg shadow-md hover:shadow-lg transition-shadow"
+                      />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
             {/* Content */}
             <div className="p-6 sm:p-8 lg:p-10">
               <div className="prose prose-lg dark:prose-invert max-w-none">

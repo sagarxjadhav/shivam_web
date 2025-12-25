@@ -84,6 +84,17 @@ function ReadBlogs() {
                   onClick={() => navigate(`/blogs/${blog.id}`)}
                   className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col group cursor-pointer"
                 >
+                  {/* Images Section - Show first */}
+                  {blog.images && blog.images.length > 0 && (
+                    <div className="w-full h-48 overflow-hidden">
+                      <img
+                        src={blog.images[0]}
+                        alt={blog.title || 'Blog image'}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                    </div>
+                  )}
+                  
                   <div className="p-6 flex-1 flex flex-col">
                     <div className="flex items-start space-x-3 mb-4">
                       <div className="flex-shrink-0 w-12 h-12 bg-gradient-to-br from-blue-600 to-red-600 rounded-lg flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">

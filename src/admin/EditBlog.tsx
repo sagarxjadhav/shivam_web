@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { auth } from '../firebase/firebaseConfig';
 import { onAuthStateChanged, User } from 'firebase/auth';
-import { getBlogById, updateBlog } from '../firebase/firebaseCURD';
+import { getBlogById, updateBlog, uploadMultipleImages } from '../firebase/firebaseCURD';
 import { toast } from 'react-toastify';
-// import Login from './Login';
 import Login from '../admin/Login';
-import { ArrowLeft, Save, X, Loader2, FileEdit } from 'lucide-react';
+import { ArrowLeft, Save, X, Loader2, FileEdit, Image as ImageIcon, Trash2 } from 'lucide-react';
 
 function EditBlog() {
   const [user, setUser] = useState<User | null>(null);
@@ -14,6 +13,9 @@ function EditBlog() {
   const [formLoading, setFormLoading] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
+  const [existingImages, setExistingImages] = useState<string[]>([]);
+  const [newImages, setNewImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -38,6 +40,7 @@ function EditBlog() {
       if (blog) {
         setTitle((blog as any).title || '');
         setContent((blog as any).content || '');
+        setExistingImages((blog as any).images || []);
       } else {
         toast.error('Blog not found');
         navigate('/admin/dashboard');
@@ -59,9 +62,19 @@ function EditBlog() {
 
     setFormLoading(true);
     try {
+      let allImageUrls = [...existingImages];
+      
+      // Upload new images if any
+      if (newImages.length > 0) {
+        toast.info('Uploading new images...');
+        const newImageUrls = await uploadMultipleImages(newImages, id!);
+        allImageUrls = [...existingImages, ...newImageUrls];
+      }
+
       await updateBlog(id, {
         title: title.trim(),
         content: content.trim(),
+        images: allImageUrls,
       });
       toast.success('Blog updated successfully');
       navigate('/admin/dashboard');
@@ -71,6 +84,37 @@ function EditBlog() {
     } finally {
       setFormLoading(false);
     }
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files);
+      const validFiles = newFiles.filter(file => file.type.startsWith('image/'));
+      
+      if (validFiles.length !== newFiles.length) {
+        toast.warning('Some files were skipped. Only image files are allowed.');
+      }
+
+      setNewImages(prev => [...prev, ...validFiles]);
+      
+      // Create previews
+      validFiles.forEach(file => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagePreviews(prev => [...prev, reader.result as string]);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const removeExistingImage = (index: number) => {
+    setExistingImages(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const removeNewImage = (index: number) => {
+    setNewImages(prev => prev.filter((_, i) => i !== index));
+    setImagePreviews(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleCancel = () => {
@@ -148,6 +192,96 @@ function EditBlog() {
                 className="w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all resize-y"
                 required
               />
+            </div>
+
+            <div>
+              <label htmlFor="images" className="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                Blog Images <span className="text-gray-500 dark:text-gray-400 text-xs font-normal">(Optional - Multiple images allowed)</span>
+              </label>
+              <div className="space-y-4">
+                {/* Existing Images */}
+                {existingImages.length > 0 && (
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Existing Images:</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                      {existingImages.map((imageUrl, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={imageUrl}
+                            alt={`Existing ${index + 1}`}
+                            className="w-full h-32 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeExistingImage(index)}
+                            className="absolute top-2 right-2 p-1.5 bg-red-600 hover:bg-red-700 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                          <div className="absolute bottom-2 left-2 px-2 py-1 bg-black/50 text-white text-xs rounded">
+                            Existing {index + 1}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Add New Images */}
+                <div>
+                  <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">Add New Images:</p>
+                  <div className="flex items-center justify-center w-full">
+                    <label
+                      htmlFor="image-upload"
+                      className="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 dark:border-gray-600 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors"
+                    >
+                      <div className="flex flex-col items-center justify-center pt-5 pb-6">
+                        <ImageIcon className="w-10 h-10 mb-3 text-gray-400 dark:text-gray-500" />
+                        <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
+                          <span className="font-semibold">Click to upload</span> or drag and drop
+                        </p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400">PNG, JPG, GIF up to 10MB</p>
+                      </div>
+                      <input
+                        id="image-upload"
+                        type="file"
+                        className="hidden"
+                        multiple
+                        accept="image/*"
+                        onChange={handleImageChange}
+                      />
+                    </label>
+                  </div>
+                </div>
+
+                {/* New Image Previews */}
+                {imagePreviews.length > 0 && (
+                  <div>
+                    <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">New Images to Upload:</p>
+                    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                      {imagePreviews.map((preview, index) => (
+                        <div key={index} className="relative group">
+                          <img
+                            src={preview}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-32 object-cover rounded-lg border border-gray-300 dark:border-gray-600"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => removeNewImage(index)}
+                            className="absolute top-2 right-2 p-1.5 bg-red-600 hover:bg-red-700 text-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity shadow-lg"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                          <div className="absolute bottom-2 left-2 px-2 py-1 bg-black/50 text-white text-xs rounded">
+                            New {index + 1}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 pt-4">

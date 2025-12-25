@@ -15,6 +15,7 @@ function Login() {
   const navigate = useNavigate();
 
   const EmailAccess = import.meta.env.VITE_ADMIN_EMAIL;
+  // const EmailAccess = 'admin@gmail.com';
 
   const handleSubmit = async(e: React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault();

@@ -1,5 +1,6 @@
-import { db } from './firebaseConfig';
+import { db, storage } from './firebaseConfig';
 import { collection, addDoc,getDocs,getDoc,updateDoc,deleteDoc,doc,serverTimestamp,query,orderBy } from 'firebase/firestore';
+import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 
 const collectionName = 'blogs';
 
@@ -73,4 +74,38 @@ const deleteBlog = async(id: any)=>{
     }
 }
 
-export { createBlog, getAllBlogs, getBlogById, updateBlog, deleteBlog };
+const uploadImage = async(file: File, blogId: string, imageIndex: number): Promise<string> => {
+    try {
+        const fileName = `blogs/${blogId}/image_${imageIndex}_${Date.now()}_${file.name}`;
+        const storageRef = ref(storage, fileName);
+        await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(storageRef);
+        return downloadURL;
+    } catch (error) {
+        console.error('Error uploading image: ', error);
+        throw error;
+    }
+}
+
+const uploadMultipleImages = async(files: File[], blogId: string): Promise<string[]> => {
+    try {
+        const uploadPromises = files.map((file, index) => uploadImage(file, blogId, index));
+        const urls = await Promise.all(uploadPromises);
+        return urls;
+    } catch (error) {
+        console.error('Error uploading multiple images: ', error);
+        throw error;
+    }
+}
+
+const deleteImage = async(imageUrl: string): Promise<void> => {
+    try {
+        const imageRef = ref(storage, imageUrl);
+        await deleteObject(imageRef);
+    } catch (error) {
+        console.error('Error deleting image: ', error);
+        throw error;
+    }
+}
+
+export { createBlog, getAllBlogs, getBlogById, updateBlog, deleteBlog, uploadMultipleImages, deleteImage };
