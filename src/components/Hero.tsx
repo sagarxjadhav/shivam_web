@@ -52,13 +52,13 @@ export default function Hero() {
           </div>
 
           <div className="relative hidden md:block">
-            <div className="relative w-full h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative w-full rounded-2xl overflow-hidden shadow-2xl">
               <img
                 src="https://images.pexels.com/photos/257736/pexels-photo-257736.jpeg?auto=compress&cs=tinysrgb&w=1200"
                 alt="Electrical Installation"
-                className="w-full h-full object-cover"
+                className="w-full h-auto"
               />
-              <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/50 to-transparent"></div>
+              <div className="absolute inset-0 bg-gradient-to-tr from-blue-900/50 to-transparent pointer-events-none"></div>
             </div>
             <div className="absolute -bottom-6 -left-6 w-48 h-48 bg-gradient-to-br from-blue-600 to-red-600 rounded-2xl -z-10 opacity-20 blur-xl"></div>
             <div className="absolute -top-6 -right-6 w-48 h-48 bg-gradient-to-br from-yellow-400 to-orange-600 rounded-2xl -z-10 opacity-20 blur-xl"></div>

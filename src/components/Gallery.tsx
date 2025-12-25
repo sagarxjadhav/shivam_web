@@ -16,11 +16,10 @@ const galleryImages = [
     url: "/s3.jpeg",
     title: "Project Showcase 3",
   },
-  {
-    url: "/s4.jpeg",
-    title: "Project Showcase 4",
-  },
+
 ];
+
+const imagesGallary = [...galleryImages, ...galleryImages];
 
 export default function Gallery() {
   return (
@@ -54,26 +53,25 @@ export default function Gallery() {
               },
             }}
           >
-            {galleryImages.map((image, index) => (
+            {imagesGallary.map((image, index) => (
               <SwiperSlide
                 key={index}
-                className="group relative flex-shrink-0 w-[280px] h-[200px] md:w-[400px] md:h-[300px] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
+                className="group relative flex-shrink-0 w-[280px] md:w-[400px] rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300"
               >
-                <SwiperSlide>
-                  {" "}
+                <div className="relative w-full">
                   <img
                     src={image.url}
                     alt={image.title}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="w-full h-auto group-hover:scale-110 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
                     <div className="absolute bottom-0 left-0 right-0 p-4 md:p-6">
                       <h3 className="text-base md:text-xl font-bold text-white">
                         {image.title}
                       </h3>
                     </div>
                   </div>
-                </SwiperSlide>
+                </div>
               </SwiperSlide>
             ))}
           </Swiper>

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Shield, Award, Clock, Leaf } from 'lucide-react';
 
 const commitments = [
@@ -36,12 +35,12 @@ export default function About() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
-          <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl">
+          <div className="relative w-full rounded-2xl overflow-hidden shadow-xl">
             <img
               // src="./workers.jpe" image is in public folder im in src folder
               src="/worker_group.jpeg"
               alt="Professional team"
-              className="w-full h-full object-cover"
+              className="w-full h-auto"
             />
           </div>
 
